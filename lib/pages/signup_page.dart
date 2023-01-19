@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:email_validator/email_validator.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -10,14 +11,8 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   bool _isObscure = true;
-  TextEditingController fname = TextEditingController();
-  bool texterror = false;
-
-  @override
-  void initState() {
-    fname.text = "";
-    super.initState();
-  }
+  // ignore: unused_field
+  String _errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
@@ -58,48 +53,45 @@ class _SignupPageState extends State<SignupPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const SizedBox(
-                          height: 50,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              labelText: "Full Name",
-                              labelStyle: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                              ),
-                              errorText:
-                                  texterror ? "Enter Correct Name" : null,
-                                  
-                              enabledBorder: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                  color: Colors.black,
-                                ),
-                              ),
-                              focusedBorder: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            style: const TextStyle(
-                              fontSize: 20,
-                            ),
-                            controller: fname,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
+                          height: 32,
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 1.2,
                           child: const TextField(
                             decoration: InputDecoration(
+                              labelText: "Full Name",
+                              labelStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(
+                                  color: Colors.black,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 1.2,
+                          child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: const InputDecoration(
                               labelText: "E-mail",
                               labelStyle: TextStyle(
                                 color: Colors.black,
@@ -120,21 +112,24 @@ class _SignupPageState extends State<SignupPage> {
                                 ),
                               ),
                             ),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                             ),
+                            onChanged: (val) {
+                              validateEmail(val);
+                            },
                           ),
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 15,
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 1.2,
-                          child: const TextField(
+                          child: TextFormField(
                             obscureText: true,
                             enableSuggestions: false,
                             autocorrect: false,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: "Password",
                               labelStyle: TextStyle(
                                 color: Colors.black,
@@ -155,17 +150,17 @@ class _SignupPageState extends State<SignupPage> {
                                 ),
                               ),
                             ),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                             ),
                           ),
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 15,
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 1.2,
-                          child: TextField(
+                          child: TextFormField(
                             obscureText: _isObscure,
                             decoration: InputDecoration(
                               labelText: "Confirm Password",
@@ -209,7 +204,7 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 25,
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 3,
@@ -308,5 +303,27 @@ class _SignupPageState extends State<SignupPage> {
         ),
       ),
     );
+  }
+
+  void validateEmail(String val) {
+    if (val.isEmpty) {
+      setState(
+        () {
+          _errorMessage = "Email can not be empty";
+        },
+      );
+    } else if (!EmailValidator.validate(val, true)) {
+      setState(
+        () {
+          _errorMessage = "Invalid Email Address";
+        },
+      );
+    } else {
+      setState(
+        () {
+          _errorMessage = "";
+        },
+      );
+    }
   }
 }
