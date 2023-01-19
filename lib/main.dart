@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
   void signup() async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: "arshninja@gmail.com", password: "abc123");
+          email: "abc@gmail.com", password: "abc123");
     } catch (e) {
       // ignore: avoid_print
       print(e);

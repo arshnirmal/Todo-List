@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list/pages/signup_page.dart';
+import 'package:todo_list/pages/login_page.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -92,7 +93,7 @@ class _LandingPageState extends State<LandingPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SignupPage(),
+                              builder: (context) => const LoginPage(),
                             ),
                           );
                         },
