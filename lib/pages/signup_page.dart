@@ -184,58 +184,85 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   Widget button() {
-    return InkWell(
-      onTap: () async {
-        setState(
-          () {
-            circularProgressBar = true;
-          },
-        );
-        try {
-          UserCredential userCredential =
-              await _auth.createUserWithEmailAndPassword(
-            email: _emailController.text,
-            password: _passwordController.text,
-          );
-          // ignore: avoid_print
-          print(userCredential.user!.email);
-          setState(
-            () {
-              circularProgressBar = false;
-            },
-          );
-        } catch (e) {
-          final snackBar = SnackBar(
-            content: Text(e.toString()),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          setState(
-            () {
-              circularProgressBar = false;
-            },
-          );
-        }
-      },
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width / 3,
-        child: ElevatedButton(
-          onPressed:
-              (_passwordOk && _emailOk && _confirmPasswordOk) ? () {} : null,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromARGB(255, 255, 76, 0),
-            padding: const EdgeInsets.symmetric(
-              vertical: 15,
-            ),
+    return SizedBox(
+      width: MediaQuery.of(context).size.width / 3,
+      child: ElevatedButton(
+        onPressed: !_emailOk
+            ? () {
+                const snackBar = SnackBar(
+                  content: Text("Please enter a valid email address"),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
+            : !_passwordOk
+                ? () {
+                    const snackBar = SnackBar(
+                      content: Text("Password must be at least 8 characters"),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+                : !_confirmPasswordOk
+                    ? () {
+                        const snackBar = SnackBar(
+                          content: Text("Passwords do not match"),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    : () async {
+                        setState(
+                          () {
+                            circularProgressBar = true;
+                          },
+                        );
+                        try {
+                          // ignore: unused_local_variable
+                          UserCredential userCredential =
+                              await _auth.createUserWithEmailAndPassword(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                          );
+                          setState(
+                            () {
+                              circularProgressBar = false;
+                            },
+                          );
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == "email-already-in-use") {
+                            const snackBar = SnackBar(
+                              content: Text("Email already in use"),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          } else {
+                            const snackBar = SnackBar(
+                              content: Text("Something went wrong"),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
+                          setState(
+                            () {
+                              circularProgressBar = false;
+                            },
+                          );
+                        }
+                      },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color.fromARGB(255, 255, 76, 0),
+          padding: const EdgeInsets.symmetric(
+            vertical: 15,
           ),
-          child: circularProgressBar
-              ? const CircularProgressIndicator()
-              : const Text(
-                  "Sign Up",
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
         ),
+        child: circularProgressBar
+            ? const CircularProgressIndicator(
+                color: Colors.white,
+              )
+            : const Text(
+                "Sign Up",
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
       ),
     );
   }
