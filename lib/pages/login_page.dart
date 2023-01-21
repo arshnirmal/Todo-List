@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:todo_list/pages/signup_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -11,11 +12,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   bool _isObscure = true;
   String _email = "";
-  String _password = "";
+  final String _password = "";
   bool _emailOk = false;
-  bool _passwordOk = false;
+  bool circularProgressBar = false;
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
               color: Colors.black,
             ),
           ),
-          suffixIcon: label == "Confirm Password"
+          suffixIcon: label == "Password"
               ? IconButton(
                   icon: Icon(
                     _isObscure ? Icons.visibility : Icons.visibility_off,
@@ -140,16 +142,12 @@ class _LoginPageState extends State<LoginPage> {
         ),
         onChanged: (val) {
           if (label == "Email Address") {
-            setState(() {
-              _email = val;
-              _emailOk = EmailValidator.validate(_email);
-            });
-          }
-          if (label == "Password") {
-            setState(() {
-              _password = val;
-              _passwordOk = _password.length >= 8;
-            });
+            setState(
+              () {
+                _email = val;
+                _emailOk = EmailValidator.validate(_email);
+              },
+            );
           }
         },
       ),
@@ -161,7 +159,29 @@ class _LoginPageState extends State<LoginPage> {
       child: SizedBox(
         width: MediaQuery.of(context).size.width / 3,
         child: ElevatedButton(
-          onPressed: (_passwordOk && _emailOk) ? () {} : null,
+          onPressed: _emailOk
+              ? () {
+                  setState(
+                    () {
+                      circularProgressBar = true;
+                    },
+                  );
+                  try {
+                    _auth.signInWithEmailAndPassword(
+                      email: _email,
+                      password: _password,
+                    );
+                    Navigator.pushReplacementNamed(context, "/home");
+                  } on FirebaseAuthException catch (e) {
+                    SnackBar snackBar = SnackBar(
+                      content: Text(
+                        e.message!,
+                      ),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+                }
+              : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromARGB(255, 255, 76, 0),
             padding: const EdgeInsets.symmetric(
@@ -182,24 +202,33 @@ class _LoginPageState extends State<LoginPage> {
   Widget socialLogin() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        Image(
-          image: AssetImage("assets/images/google.png"),
-          height: 50,
+      children: [
+        IconButton(
+          onPressed: () {},
+          icon: const Image(
+            image: AssetImage("assets/images/google.png"),
+          ),
+          iconSize: 50,
         ),
-        SizedBox(
+        const SizedBox(
           width: 60,
         ),
-        Image(
-          image: AssetImage("assets/images/facebook.png"),
-          height: 50,
+        IconButton(
+          onPressed: () {},
+          icon: const Image(
+            image: AssetImage("assets/images/facebook.png"),
+          ),
+          iconSize: 50,
         ),
-        SizedBox(
+        const SizedBox(
           width: 60,
         ),
-        Image(
-          image: AssetImage("assets/images/twitter.png"),
-          height: 50,
+        IconButton(
+          onPressed: () {},
+          icon: const Image(
+            image: AssetImage("assets/images/twitter.png"),
+          ),
+          iconSize: 50,
         ),
       ],
     );

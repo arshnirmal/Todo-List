@@ -160,22 +160,28 @@ class _SignupPageState extends State<SignupPage> {
         ),
         onChanged: (val) {
           if (label == "Email Address") {
-            setState(() {
-              _email = val;
-              _emailOk = EmailValidator.validate(_email);
-            });
+            setState(
+              () {
+                _email = val;
+                _emailOk = EmailValidator.validate(_email);
+              },
+            );
           }
           if (label == "Password") {
-            setState(() {
-              _password = val;
-              _passwordOk = _password.length >= 8;
-            });
+            setState(
+              () {
+                _password = val;
+                _passwordOk = _password.length >= 8;
+              },
+            );
           }
           if (label == "Confirm Password") {
-            setState(() {
-              _confirmPassword = val;
-              _confirmPasswordOk = _confirmPassword == _password;
-            });
+            setState(
+              () {
+                _confirmPassword = val;
+                _confirmPasswordOk = _confirmPassword == _password;
+              },
+            );
           }
         },
         controller: controller,
@@ -270,24 +276,33 @@ class _SignupPageState extends State<SignupPage> {
   Widget socialLogin() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        Image(
-          image: AssetImage("assets/images/google.png"),
-          height: 50,
+      children: [
+        IconButton(
+          onPressed: () {},
+          icon: const Image(
+            image: AssetImage("assets/images/google.png"),
+          ),
+          iconSize: 50,
         ),
-        SizedBox(
+        const SizedBox(
           width: 60,
         ),
-        Image(
-          image: AssetImage("assets/images/facebook.png"),
-          height: 50,
+        IconButton(
+          onPressed: () {},
+          icon: const Image(
+            image: AssetImage("assets/images/facebook.png"),
+          ),
+          iconSize: 50,
         ),
-        SizedBox(
+        const SizedBox(
           width: 60,
         ),
-        Image(
-          image: AssetImage("assets/images/twitter.png"),
-          height: 50,
+        IconButton(
+          onPressed: () {},
+          icon: const Image(
+            image: AssetImage("assets/images/twitter.png"),
+          ),
+          iconSize: 50,
         ),
       ],
     );
