@@ -48,12 +48,14 @@ class _SignupPageState extends State<SignupPage> {
                 Image(
                   image: const AssetImage("assets/images/landingPage3.png"),
                   height: MediaQuery.of(context).size.height / 4,
+                  width: MediaQuery.of(context).size.width,
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 1.425,
+                  width: MediaQuery.of(context).size.width,
                   child: Container(
                     decoration: const BoxDecoration(
                       color: Colors.white,
@@ -96,11 +98,11 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                         ),
                         const SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
                         socialLogin(),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         otherMethod(),
                       ],
@@ -125,7 +127,7 @@ class _SignupPageState extends State<SignupPage> {
           labelText: label,
           labelStyle: const TextStyle(
             color: Colors.black,
-            fontSize: 20,
+            fontSize: 16,
           ),
           enabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -156,7 +158,7 @@ class _SignupPageState extends State<SignupPage> {
               : null,
         ),
         style: const TextStyle(
-          fontSize: 20,
+          fontSize: 16,
         ),
         onChanged: (val) {
           if (label == "Email Address") {
