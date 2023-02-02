@@ -20,7 +20,9 @@ class _MyAppState extends State<MyApp> {
   void signup() async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: "abc@gmail.com", password: "abc123");
+        email: "abc@gmail.com",
+        password: "abc123",
+      );
     } catch (e) {
       // ignore: avoid_print
       print(e);
@@ -29,9 +31,12 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LandingPage(),
+      theme: ThemeData(
+        useMaterial3: true,
+      ),
+      home: const LandingPage(),
     );
   }
 }

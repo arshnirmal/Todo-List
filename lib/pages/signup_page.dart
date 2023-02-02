@@ -43,18 +43,15 @@ class _SignupPageState extends State<SignupPage> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 const SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 Image(
                   image: const AssetImage("assets/images/landingPage3.png"),
-                  height: MediaQuery.of(context).size.height / 4,
+                  height: MediaQuery.of(context).size.height * 0.33,
                   width: MediaQuery.of(context).size.width,
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height / 1.425,
+                  height: MediaQuery.of(context).size.height * 0.633,
                   width: MediaQuery.of(context).size.width,
                   child: Container(
                     decoration: const BoxDecoration(
@@ -72,34 +69,34 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                         textFormField("Full Name", false, _nameController),
                         const SizedBox(
-                          height: 15,
+                          height: 10,
                         ),
                         textFormField("Email Address", false, _emailController),
                         const SizedBox(
-                          height: 15,
+                          height: 10,
                         ),
                         textFormField("Password", true, _passwordController),
                         const SizedBox(
-                          height: 15,
+                          height: 10,
                         ),
                         textFormField("Confirm Password", _isObscure,
                             _confirmPasswordController),
                         const SizedBox(
-                          height: 25,
+                          height: 24,
                         ),
                         button(),
                         const SizedBox(
-                          height: 30,
+                          height: 24,
                         ),
-                        const Text(
-                          "-----------------OR-----------------",
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        // const Text(
+                        //   "-----------------OR-----------------",
+                        //   style: TextStyle(
+                        //     fontSize: 24,
+                        //   ),
+                        // ),
+                        // const SizedBox(
+                        //   height: 18,
+                        // ),
                         socialLogin(),
                         const SizedBox(
                           height: 10,
@@ -121,13 +118,14 @@ class _SignupPageState extends State<SignupPage> {
       String label, bool isObscure, TextEditingController controller) {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 1.2,
+      height: 64,
       child: TextFormField(
         obscureText: isObscure,
         decoration: InputDecoration(
           labelText: label,
           labelStyle: const TextStyle(
             color: Colors.black,
-            fontSize: 16,
+            fontSize: 18,
           ),
           enabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -193,7 +191,8 @@ class _SignupPageState extends State<SignupPage> {
 
   Widget button() {
     return SizedBox(
-      width: MediaQuery.of(context).size.width / 3,
+      width: MediaQuery.of(context).size.width / 3.5,
+      height: 50,
       child: ElevatedButton(
         onPressed: !_emailOk
             ? () {
@@ -257,9 +256,8 @@ class _SignupPageState extends State<SignupPage> {
                       },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color.fromARGB(255, 255, 76, 0),
-          padding: const EdgeInsets.symmetric(
-            vertical: 15,
-          ),
+          padding: const EdgeInsets.all(4.0),
+          shape: const StadiumBorder(),
         ),
         child: circularProgressBar
             ? const CircularProgressIndicator(
@@ -268,7 +266,8 @@ class _SignupPageState extends State<SignupPage> {
             : const Text(
                 "Sign Up",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
+                  color: Colors.white,
                 ),
               ),
       ),
@@ -276,37 +275,42 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   Widget socialLogin() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        IconButton(
-          onPressed: () {},
-          icon: const Image(
-            image: AssetImage("assets/images/google.png"),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      alignment: Alignment.center,
+      height: 60,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+            onPressed: () {},
+            icon: const Image(
+              image: AssetImage("assets/images/google.png"),
+            ),
+            iconSize: 50,
           ),
-          iconSize: 50,
-        ),
-        const SizedBox(
-          width: 60,
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: const Image(
-            image: AssetImage("assets/images/facebook.png"),
+          const SizedBox(
+            width: 60,
           ),
-          iconSize: 50,
-        ),
-        const SizedBox(
-          width: 60,
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: const Image(
-            image: AssetImage("assets/images/twitter.png"),
+          IconButton(
+            onPressed: () {},
+            icon: const Image(
+              image: AssetImage("assets/images/facebook.png"),
+            ),
+            iconSize: 50,
           ),
-          iconSize: 50,
-        ),
-      ],
+          const SizedBox(
+            width: 60,
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Image(
+              image: AssetImage("assets/images/twitter.png"),
+            ),
+            iconSize: 50,
+          ),
+        ],
+      ),
     );
   }
 

@@ -39,13 +39,15 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Image(
                   image: const AssetImage("assets/images/landingPage3.png"),
-                  height: MediaQuery.of(context).size.height / 2.5,
+                  height: MediaQuery.of(context).size.height * 0.48,
+                  width: MediaQuery.of(context).size.width,
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height / 1.81,
+                  height: MediaQuery.of(context).size.height * 0.47,
+                  width: MediaQuery.of(context).size.width,
                   child: Container(
                     decoration: const BoxDecoration(
                       color: Colors.white,
@@ -58,32 +60,32 @@ class _LoginPageState extends State<LoginPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const SizedBox(
-                          height: 40,
+                          height: 32,
                         ),
                         textFormField("Email Address", false),
                         const SizedBox(
-                          height: 15,
+                          height: 10,
                         ),
-                        textFormField("Password", true),
+                        textFormField("Password", _isObscure),
                         const SizedBox(
-                          height: 25,
+                          height: 24,
                         ),
-                        button("Log In"),
+                        button(),
                         const SizedBox(
-                          height: 30,
+                          height: 24,
                         ),
-                        const Text(
-                          "-----------------OR-----------------",
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
+                        // const Text(
+                        //   "-----------------OR-----------------",
+                        //   style: TextStyle(
+                        //     fontSize: 20,
+                        //   ),
+                        // ),
+                        // const SizedBox(
+                        //   height: 30,
+                        // ),
                         socialLogin(),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         otherMethod(),
                       ],
@@ -101,13 +103,14 @@ class _LoginPageState extends State<LoginPage> {
   Widget textFormField(String label, bool isObscure) {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 1.2,
+      height: 64,
       child: TextFormField(
         obscureText: isObscure,
         decoration: InputDecoration(
           labelText: label,
           labelStyle: const TextStyle(
             color: Colors.black,
-            fontSize: 20,
+            fontSize: 18,
           ),
           enabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -138,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
               : null,
         ),
         style: const TextStyle(
-          fontSize: 20,
+          fontSize: 16,
         ),
         onChanged: (val) {
           if (label == "Email Address") {
@@ -154,10 +157,11 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget button(String text) {
+  Widget button() {
     return InkWell(
       child: SizedBox(
-        width: MediaQuery.of(context).size.width / 3,
+        width: MediaQuery.of(context).size.width / 3.5,
+        height: 50,
         child: ElevatedButton(
           onPressed: _emailOk
               ? () {
@@ -184,14 +188,14 @@ class _LoginPageState extends State<LoginPage> {
               : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromARGB(255, 255, 76, 0),
-            padding: const EdgeInsets.symmetric(
-              vertical: 15,
-            ),
+            padding: const EdgeInsets.all(4.0),
+            shape: const StadiumBorder(),
           ),
-          child: Text(
-            text,
-            style: const TextStyle(
-              fontSize: 20,
+          child: const Text(
+            "Log in",
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.white,
             ),
           ),
         ),
@@ -200,37 +204,42 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget socialLogin() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        IconButton(
-          onPressed: () {},
-          icon: const Image(
-            image: AssetImage("assets/images/google.png"),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      alignment: Alignment.center,
+      height: 60,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+            onPressed: () {},
+            icon: const Image(
+              image: AssetImage("assets/images/google.png"),
+            ),
+            iconSize: 50,
           ),
-          iconSize: 50,
-        ),
-        const SizedBox(
-          width: 60,
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: const Image(
-            image: AssetImage("assets/images/facebook.png"),
+          const SizedBox(
+            width: 60,
           ),
-          iconSize: 50,
-        ),
-        const SizedBox(
-          width: 60,
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: const Image(
-            image: AssetImage("assets/images/twitter.png"),
+          IconButton(
+            onPressed: () {},
+            icon: const Image(
+              image: AssetImage("assets/images/facebook.png"),
+            ),
+            iconSize: 50,
           ),
-          iconSize: 50,
-        ),
-      ],
+          const SizedBox(
+            width: 60,
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Image(
+              image: AssetImage("assets/images/twitter.png"),
+            ),
+            iconSize: 50,
+          ),
+        ],
+      ),
     );
   }
 
